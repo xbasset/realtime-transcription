@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Transcription</title>
+    <link href="/static/css/output.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+    <script src="/static/js/voice-ui.js"></script>
+    <script src="/static/js/constants.js"></script>
+</head>
+
+<body class="h-full">
+    <input type="hidden" id="role" name="role" value="{{role}}">
+    <div class="min-h-full" x-data="voiceUIComponent()">
+        <main class="py-10 h-full">
+            <div
+                class="mx-auto max-w-3xl px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
+                <div class="flex items-center space-x-5">
+                    <div class="shrink-0">•
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Realtime Transcription</h1>
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                class="mx-auto ml-8 mt-8 grid grid-cols-1 gap-6 sm:px-6 l lg:grid-cols-3 min-h-[75vh]">
+                <div class="bg-white shadow sm:rounded-lg h-full overflow-y-auto">
+                    <div class="px-4 py-5 sm:px-6">
+                        <h2 id="applicant-information-title" class="text-lg/6 font-medium text-gray-900">
+                            Connect Realtime Transcription</h2>
+                    </div>
+                    <div>
+                        <!-- VoiceUI Component -->
+                        <div class="flex flex-col justify-center p-8 rounded-lg w-full h-full">
+                            <div class="flex flex-col gap-4 items-center">
+                                <!-- Voice UI -->
+                                <div id="voice-ui" x-ref="voiceUIElement"
+                                    class="size-40 rounded-full shadow-lg inset-ring inset-ring-white/15 transform transition-transform duration-300 ease-in-out cursor-pointer flex items-center justify-center group hover:scale-105 hover:animate-pulse"
+                                    @click="handleClick()">
+                                    <div x-ref="voiceUIIcon"
+                                        class="size-25 inset-ring inset-ring-white/15 inset-shadow-sm inset-shadow-white/20 rounded-full shadow-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" class="size-full  p-8 text-gray-900">
+                                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- State Message -->
+                                <p class="text-gray-600 fade-in" x-text="stateMessage"></p>
+                                <audio x-ref="agentAudio" id="agent-audio" class=""></audio>
+                            </div>
+
+
+                            <!-- /VoiceUI Component -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-col w-full grow-0 h-full col-span-2 gap-y-4">
+                    <div
+                        class="bg-white px-4 shadow sm:rounded-lg sm:px-6 divide-y divide-gray-200 w-full overflow-y-auto">
+                        <div class="divide-y divide-gray-200">
+
+                            <div class="py-4">
+                                Participants
+                            </div>
+                            <div class="px-4 py-5 sm:px-6">
+                                <h2 id="notes-title" class="text-lg font-medium text-gray-900">⚡️ Live Transcription</h2>
+                            </div>
+                            <div x-show="(live_info === '' || live_info === null) && !isSummaryLoading"
+                                class="m-4 p-4 sm:px-6 text-gray-500 italic text-center">
+                                nothing to display at the moment
+                            </div>
+                            <div x-show="live_info !== '' && live_info !== null">
+                                <div class="m-4 px-4 py-6 sm:px-6 block border border-gray-300 shadow-lg text-2xl"
+                                    x-html="live_info">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
